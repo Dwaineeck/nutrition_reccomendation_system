@@ -1,40 +1,17 @@
-# Python Django
-# Test a Django project on multiple versions of Python.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/python
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
 
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
-strategy:
-  matrix:
-    Python38:
-      PYTHON_VERSION: '3.8'
-    Python39:
-      PYTHON_VERSION: '3.9'
-    Python310:
-      PYTHON_VERSION: '3.10'
-  maxParallel: 3
+  name: 'Default'  # Specify your agent pool here, assuming 'Default' is correct
+  demands:
+    - agent.name -equals ECK  # Ensures the pipeline uses your self-hosted agent named 'ECK'
+
 
 steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(PYTHON_VERSION)'
-    architecture: 'x64'
-
-- script: |
-    python -m pip install --upgrade pip
-    pip install -r requirements.txt
-  displayName: 'Install prerequisites'
-
-- script: |
-    python manage.py test
-  displayName: 'Run tests'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/TEST-*.xml'
-    testRunTitle: 'Python $(PYTHON_VERSION)'
-  condition: succeededOrFailed()
+- script: echo Hello, world!
+  displayName: 'Run a one-line script'
