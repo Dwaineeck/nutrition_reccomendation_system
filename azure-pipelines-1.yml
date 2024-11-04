@@ -7,8 +7,10 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
-  name: 'Default'
+  name: 'Default'  # Specify your agent pool here, assuming 'Default' is correct
+  demands:
+    - agent.name -equals ECK  # Ensures the pipeline uses your self-hosted agent named 'ECK'
+
 
 steps:
 - script: echo Hello, world!
